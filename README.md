@@ -19,6 +19,10 @@ Before                        After
 - Take a break                ☕ Take a break
 ```
 
+UI:
+
+<img width="1869" height="1944" alt="image" src="https://github.com/user-attachments/assets/ce89f2bd-90c2-4548-b572-a5fe9ec1eed2" />
+
 ## 📋 Prerequisites
 
 🥟 **[Bun](https://bun.sh)** ≥ 1.3 — OpenTUI is Bun-exclusive.
