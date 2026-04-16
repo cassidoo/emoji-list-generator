@@ -8,9 +8,25 @@ import {
 import { CopilotClient, approveAll } from "@github/copilot-sdk";
 import clipboard from "clipboardy";
 
+// Silence noisy stderr from the Copilot CLI subprocess (e.g. Node's
+// "ExperimentalWarning: SQLite is an experimental feature") so it doesn't
+// bleed into the TUI's alternate-screen render.
+const originalStderrWrite = process.stderr.write.bind(process.stderr);
+process.stderr.write = ((chunk: string | Uint8Array, ...rest: unknown[]) => {
+  const text = typeof chunk === "string" ? chunk : Buffer.from(chunk).toString();
+  if (
+    text.includes("[CLI subprocess]") ||
+    text.includes("ExperimentalWarning") ||
+    text.includes("Use `node --trace-warnings")
+  ) {
+    return true;
+  }
+  return (originalStderrWrite as (c: unknown, ...r: unknown[]) => boolean)(chunk, ...rest);
+}) as typeof process.stderr.write;
+
 const SYSTEM_PROMPT = `You are a markdown formatting assistant. The user will give you a bulleted list. For each bullet point, replace the leading "- ", "* ", or "+ " marker with a single relevant emoji followed by a single space. Preserve the original wording of each bullet exactly. If a bullet already starts with an emoji, replace it with a better-fitting one. Return ONLY the transformed list with no commentary, no code fences, and no blank lines between items.`;
 
-const MODEL = "gpt-5";
+const MODEL = "claude-sonnet-4.6";
 
 type AppState =
   | { kind: "editing" }
@@ -49,7 +65,7 @@ async function main() {
     new TextRenderable(ctx, {
       id: "header-sub",
       content:
-        "Paste or type your bullet points below. Press Ctrl+S to generate, Ctrl+C to quit.",
+        "Paste or type your bullet points below. Press Ctrl+S to generate, Ctrl+L to clear, Ctrl+C to quit.",
       fg: "#CBD5E1",
     }),
   );
@@ -114,6 +130,16 @@ async function main() {
 
   renderer.focusRenderable(textarea);
 
+  renderer.keyInput.on("keypress", (key) => {
+    if (key.ctrl && key.name === "l") {
+      textarea.setText("");
+      renderer.focusRenderable(textarea);
+      setState({ kind: "editing" });
+      key.preventDefault();
+      key.stopPropagation();
+    }
+  });
+
   let state: AppState = { kind: "editing" };
 
   const setState = (next: AppState) => {
@@ -132,7 +158,7 @@ async function main() {
         break;
       case "done":
         statusText.content =
-          "✅ Copied to clipboard! Edit above and press Ctrl+S to regenerate, or Ctrl+C to quit.";
+          "✅ Copied to clipboard! Press Ctrl+L to clear, Ctrl+S to regenerate, or Ctrl+C to quit.";
         statusText.fg = "#22C55E";
         resultText.content = next.output;
         resultBox.visible = true;
