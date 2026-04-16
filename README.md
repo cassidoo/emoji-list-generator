@@ -5,7 +5,9 @@ An AI-powered CLI that turns plain bullet lists into emoji-prefixed markdown lis
 Built on:
 
 🖥️ [`@opentui/core`](https://opentui.com) for the terminal UI
+
 :octocat: [`@github/copilot-sdk`](https://www.npmjs.com/package/@github/copilot-sdk) for the AI brain
+
 📋 [`clipboardy`](https://www.npmjs.com/package/clipboardy) for clipboard access
 
 ## ✨ Demo
@@ -20,6 +22,7 @@ Before                        After
 ## 📋 Prerequisites
 
 🥟 **[Bun](https://bun.sh)** ≥ 1.3 — OpenTUI is Bun-exclusive.
+
 :octocat: **GitHub Copilot CLI** installed and authenticated (`copilot` on your `PATH`, signed in with a Copilot-enabled account).
 
 ## 🚀 Install
