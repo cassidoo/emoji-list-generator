@@ -1,0 +1,22 @@
+{
+  "name": "emoji-list-generator",
+  "version": "0.1.0",
+  "description": "AI-powered CLI that rewrites bullet points with relevant emojis and copies to your clipboard.",
+  "type": "module",
+  "bin": {
+    "emoji-list": "./src/index.ts"
+  },
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "dev": "bun run src/index.ts"
+  },
+  "dependencies": {
+    "@github/copilot-sdk": "^0.2.2",
+    "@opentui/core": "^0.1.99",
+    "clipboardy": "^5.3.1"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5"
+  }
+}
