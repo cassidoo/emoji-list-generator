@@ -1,12 +1,12 @@
 # 🎯 Emoji List Generator
 
-An AI-powered CLI that turns plain bullet lists into emoji-prefixed markdown lists — and copies the result to your clipboard.
+An AI-powered CLI that turns plain bullet lists into emoji-prefixed markdown lists and copies the result to your clipboard.
 
 Built on:
 
-- [`@opentui/core`](https://opentui.com) for the terminal UI
-- [`@github/copilot-sdk`](https://www.npmjs.com/package/@github/copilot-sdk) for the AI brain
-- [`clipboardy`](https://www.npmjs.com/package/clipboardy) for clipboard access
+🖥️ [`@opentui/core`](https://opentui.com) for the terminal UI
+:octocat: [`@github/copilot-sdk`](https://www.npmjs.com/package/@github/copilot-sdk) for the AI brain
+📋 [`clipboardy`](https://www.npmjs.com/package/clipboardy) for clipboard access
 
 ## ✨ Demo
 
@@ -19,8 +19,8 @@ Before                        After
 
 ## 📋 Prerequisites
 
-1. **[Bun](https://bun.sh)** ≥ 1.3 — OpenTUI is Bun-exclusive.
-2. **GitHub Copilot CLI** installed and authenticated (`copilot` on your `PATH`, signed in with a Copilot-enabled account).
+🥟 **[Bun](https://bun.sh)** ≥ 1.3 — OpenTUI is Bun-exclusive.
+:octocat: **GitHub Copilot CLI** installed and authenticated (`copilot` on your `PATH`, signed in with a Copilot-enabled account).
 
 ## 🚀 Install
 
@@ -66,17 +66,3 @@ bun install -g /absolute/path/to/emoji-list-generator
 ### Windows PATH note
 
 `bun link` places a shim in `%USERPROFILE%\.bun\bin` (added to your PATH by the Bun installer). If `emoji-list` isn't found after linking, open a **new** terminal window — PATH changes don't apply to already-open shells.
-
-## ⚙️ How it works
-
-On submit, the app opens a [`CopilotSession`](https://www.npmjs.com/package/@github/copilot-sdk) with a system prompt instructing the model to:
-
-- Replace each `-`/`*`/`+` marker with a single contextually relevant emoji
-- Preserve the original wording
-- Return only the transformed list
-
-The streamed `assistant.message` is captured, cleaned of any code fences, written to the clipboard, and displayed in the result panel.
-
-## 📝 License
-
-MIT
